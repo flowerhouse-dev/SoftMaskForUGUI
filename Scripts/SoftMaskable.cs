@@ -306,6 +306,26 @@ namespace Coffee.UISoftMask
             UpdateMaterialForSceneView(modifiedMaterial);
         }
 
+	/// <summary>
+ 	/// Listen for changes to the RectTransform which triggers when the screen orientation changes.
+  	/// </summary>
+	private void OnRectTransformDimensionsChange()
+        {
+            if (this.isActiveAndEnabled)
+            {
+                StartCoroutine(FixSoftmaskBreakingAfterOrientationChange());
+            }
+        }
+
+	/// <summary>
+ 	/// Temporary fix for the SoftMask disapprearing when the screen orientation changes.
+  	/// </summary>
+        private System.Collections.IEnumerator FixSoftmaskBreakingAfterOrientationChange()
+        {
+            enabled = false;
+            yield return null; // Wait a frame
+            enabled = true;
+        }
 
         /// <summary>
         /// This function is called when the script is loaded or a value is changed in the inspector (Called in the editor only).
